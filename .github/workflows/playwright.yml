@@ -1,7 +1,5 @@
 name: Run Playwright Tests on Electron
 
-
-
 on:
   workflow_dispatch:
     inputs:
@@ -14,6 +12,7 @@ permissions:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DEBUG: pw:browser
 
 jobs:
   test:
@@ -47,9 +46,9 @@ jobs:
     - name: Install Chromium
       run: npx playwright install --with-deps chromium
     - name: Run Tests (Linux)
-      run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run etest
+      run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run etest -- --reporter=list
       if: matrix.os == 'ubuntu-latest'
     - name: Run Tests (Non-Linux)
-      run: npm run etest
+      run: npm run etest -- --reporter=list
       if: matrix.os != 'ubuntu-latest'
   
