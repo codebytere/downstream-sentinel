@@ -34,10 +34,6 @@ jobs:
       run: npm ci
       env:
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-    - name: Handle electron-to-chromium Bug
-      run: |
-        curl -O -L https://github.com/microsoft/playwright/pull/28826.patch
-        git apply 28826.patch
     - name: Update Electron to ${{ github.event.inputs.version }}
       run: npm i electron@${{ github.event.inputs.version }}
     - name: Build Playwright
@@ -49,5 +45,4 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
     - name: Run Tests (Non-Linux)
       run: npm run etest
-      if: matrix.os != 'ubuntu-latest'
-  
+      if: matrix.os != 'ubuntu-latest'  
